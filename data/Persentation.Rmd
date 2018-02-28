@@ -1,0 +1,51 @@
+---
+title: "Overview"
+author: "Massih"
+date: "2/14/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Executive Summary**
+
+
+The objective of the project is to investigate the changes in land use (farmland/residential) among counties of Tennessee. The area used by farms and by residential properties will be observed over a period of time and the changing pattern and probable correlation between farmland area and number/area of residential properties will be visualized.
+
+**Motivation**
+
+
+Changing the land use, can result in remarkable socioecological sequences; such as changes in water quality, air pollution, food production. If the changes among counties are uneven (due to market value) it will be prudent to manage it to avoid uneven development of the counties.
+
+**Data Question**
+
+
+Hypothesis: There is a chance that Tennessee farmlands are changing into urban area
+Question: How fast this is happening?
+
+
+**Schedule** *(February 15 – March 10)*
+
+
+1.	Feb 15 - Feb 17: Get the Data 
+2.	Feb 17 - Feb 24: Clean & Explore the Data
+3.	Feb 24 - Mar 3: Build & Deploy your Shiny App
+4.	Mar 3 - Mar 10: Document/Pitch your Shiny App with a Presentation
+5.	Mar 10: Presentation & demonstration 
+ 
+
+
+**Data Sources**
+
+
+1.	The data for farmland will be used from US Census of Agriculture, at the following link: <https://www.agcensus.usda.gov/Publications/2012/Full_Report/Volume_1,_Chapter_2_County_Level/Tennessee/st47_2_008_008.pdf>
+2.	The data for residential information will be extracted from Zillow Research page (<https://www.zillow.com/research/data/>)
+
+**Known Issues and Challenges**
+
+
+1.	The farm use data is collected every 5 years only, and the granularity is not the same as that of residential info. A possible solution can be filling the absent data with most recent available.
+2.	The information is mostly in PDF format. A tool for converting PDF to spreadsheet is available at <http://tabula.technology/>, however, data cleaning will be time consuming.
+3.	A criticism of the hypothesis may be farmland does not necessarily change into residential immediately, so the correlation might be subject to controversy.
