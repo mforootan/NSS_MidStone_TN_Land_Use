@@ -1,6 +1,9 @@
 library("gdata")
 library("ggplot2")
 library("plotly")
+library("dplyr")
+setwd("/Users/ghfmhf/git/NSS_project/TN_Land_Use/data")
+
 
 options(stringsAsFactors = FALSE)
 load("TN_LU_1.Rda")
@@ -75,18 +78,24 @@ TN_home <- select(TN_home,'County','value','Metric', 'Year')
 
 save(TN_home, TN_pasture, TN_wood, TN_crop, TN_farm, file = "TN_LU_2.Rda")
 
-# Graphs for Visual test
+# # Graphs for Visual test
+# 
+# ggplot(TN_farm, aes(y=Farmland, x=Year)) +geom_bar(stat = "identity")+facet_wrap(~County)
+# ggplot(TN_crop, aes(y=Cropland, x=Year)) +geom_bar(stat = "identity")+facet_wrap(~County)
+# ggplot(TN_pasture, aes(y=Pasture, x=Year)) +geom_bar(stat = "identity")+facet_wrap(~County)
+# ggplot(TN_wood, aes(y=Woodland, x=Year)) +geom_bar(stat = "identity")+facet_wrap(~County)
+# 
+# homes_s <- TN_home %>% 
+#   filter(Metric == "Homes_Sold")
+# 
+# homes_p <- TN_home %>% 
+#   filter(Metric == "Median_Price")
+# 
+# ggplot(homes_s, aes(x=Year, y=value, group=1)) +geom_point() + geom_line() +facet_wrap(~County)
+# 
+ homes_test <- TN_home %>%
+   filter(Metric == "Homes_Sold", County == "Davidson")
+ggplot2::ggplot(homes_test, aes(x=Year, y=value, group=1)) +geom_point() + geom_line()
 
-ggplot(TN_farm, aes(y=Farmland, x=Year)) +geom_bar(stat = "identity")+facet_wrap(~County)
-ggplot(TN_crop, aes(y=Cropland, x=Year)) +geom_bar(stat = "identity")+facet_wrap(~County)
-ggplot(TN_pasture, aes(y=Pasture, x=Year)) +geom_bar(stat = "identity")+facet_wrap(~County)
-ggplot(TN_wood, aes(y=Woodland, x=Year)) +geom_bar(stat = "identity")+facet_wrap(~County)
 
-homes_s <- TN_home %>% 
-  filter(Metric == "Homes_Sold")
-
-homes_p <- TN_home %>% 
-  filter(Metric == "Median_Price")
-
-ggplot(homes_s, aes(x=Year, y=value, group=1)) +geom_point() + geom_line() +facet_wrap(~County)
 

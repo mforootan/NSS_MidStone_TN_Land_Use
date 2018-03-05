@@ -15,8 +15,9 @@ shinyServer(function(input, output) {
   output$distPlot <- renderPlot({
     
     # generate bins based on input$bins from ui.R
-    x    <- faithful[, 2] 
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
+    homes_county <- TN_home %>%
+      filter(Metric == "Homes_Sold", County == input$selCOUNTY)
+    ggplot2::ggplot(homes_test, aes(x=Year, y=value, group=1)) +geom_point() + geom_line()
     
     # draw the histogram with the specified number of bins
     hist(x, breaks = bins, col = 'darkgray', border = 'white')
