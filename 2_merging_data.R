@@ -76,7 +76,7 @@ for (i in 1:nrow(TN_home)) {
 colnames(TN_home) <- c('County','variable','value','Metric', 'Year')
 TN_home <- select(TN_home,'County','value','Metric', 'Year')
 
-save(TN_home, TN_pasture, TN_wood, TN_crop, TN_farm, file = "TN_LU_2.Rda")
+save(TN_home, TN_pasture, TN_wood, TN_crop, TN_farm, TN_pin, file = "TN_LU_2.Rda")
 
 # # Graphs for Visual test
 # 

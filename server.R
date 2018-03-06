@@ -19,9 +19,13 @@ shinyServer(function(input, output) {
       filter(Metric == "Homes_Sold", County == input$selCOUNTY)
     ggplot2::ggplot(homes_test, aes(x=Year, y=value, group=1)) +geom_point() + geom_line()
     
-    # draw the histogram with the specified number of bins
-    hist(x, breaks = bins, col = 'darkgray', border = 'white')
     
   })
+ 
   
+  output$selected_var <- renderText({ 
+    paste("You have selected this",
+    input$chkLAND,
+    input$selCOUNTY)
+  })
 })

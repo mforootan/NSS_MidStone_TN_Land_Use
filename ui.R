@@ -71,35 +71,46 @@ p("While the homes sold data was available as spreadsheet, the agriculture data 
   
   # Checkboxes to define what data to be displayed
                           
-                      fluidRow(column(3, 
+                      fluidRow(column(2, 
   
                           checkboxInput("chkFARM", label = "Farmland", value = TRUE),
                           hr()
-                        ), column(3,
+                        ), column(2,
                           checkboxInput("chkCROP", label = "Cropland", value = TRUE),
                           hr()
-                        ), column(3,
+                        ), column(2,
                           checkboxInput("chkWOOD", label = "Woodland", value = TRUE),
                           hr()
-                        ), column(3,
+                        ), column(2,
                           checkboxInput("chkPAST", label = "Pasture", value = TRUE),
                           hr()
 
-                        )),
+                        ), column (4,
+                                   checkboxGroupInput("chkLAND", 
+                                                      h6("Select Land Type (See Source Data tab for definitions)"), 
+                                                      choices = list("Farmland" = 1, 
+                                                                     "Cropland" = 2, 
+                                                                     "Woodland" = 3,
+                                                                     "Pasture" = 4),
+                                                      selected = 1)
+                                   )
+                        
+                        ),
                       
                       
   # Two columns, left one for county drop down and the other for graphs
                       fluidRow(column(3,
                                       # A dropdown list containing county names
-                                      selectInput("selCOUNTY", label = h3("Select County"),
+                                      selectInput("selCOUNTY", label = h6("Select County"),
                                                   choices = droplist,
                                                   selected = 1)
                                )
                               ),
-                                column(3
+                                column(3,
                                       # Home sales plot
                                       # plotOutput()
-                                     )
+                                      textOutput("selected_var")
+                                      )
                         )
 ) # NavBar End
 ) # FluidPage End
