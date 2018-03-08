@@ -76,26 +76,21 @@ for (i in 1:nrow(TN_home)) {
 colnames(TN_home) <- c('County','variable','value','Metric', 'Year')
 TN_home <- select(TN_home,'County','value','Metric', 'Year')
 
-save(TN_home, TN_pasture, TN_wood, TN_crop, TN_farm, TN_pin, file = "TN_LU_2.Rda")
+    m1 <- merge(TN_pin, TN_farm, by.x  = "county", by.y = "County")
 
-# # Graphs for Visual test
-# 
-# ggplot(TN_farm, aes(y=Farmland, x=Year)) +geom_bar(stat = "identity")+facet_wrap(~County)
-# ggplot(TN_crop, aes(y=Cropland, x=Year)) +geom_bar(stat = "identity")+facet_wrap(~County)
-# ggplot(TN_pasture, aes(y=Pasture, x=Year)) +geom_bar(stat = "identity")+facet_wrap(~County)
-# ggplot(TN_wood, aes(y=Woodland, x=Year)) +geom_bar(stat = "identity")+facet_wrap(~County)
-# 
-# homes_s <- TN_home %>% 
-#   filter(Metric == "Homes_Sold")
-# 
-# homes_p <- TN_home %>% 
-#   filter(Metric == "Median_Price")
-# 
-# ggplot(homes_s, aes(x=Year, y=value, group=1)) +geom_point() + geom_line() +facet_wrap(~County)
-# 
- homes_test <- TN_home %>%
-   filter(Metric == "Homes_Sold", County == "Davidson")
-ggplot2::ggplot(homes_test, aes(x=Year, y=value, group=1)) +geom_point() + geom_line()
+    m2 <- merge(m1, TN_wood, by.x  = c("county","Year"), by.y = c("County","Year"), all.x = T, all.y = T)
+    
+    m3 <- merge(m2, TN_crop, by.x  = c("county","Year"), by.y = c("County","Year"), all.x = T, all.y = T)
+    
+    TN_land <- merge(m3, TN_pasture, by.x  = c("county","Year"), by.y = c("County","Year"), all.x = T, all.y = T)
+    
+    TN_land[is.na(TN_land)] <- 0  
+    
+    TN_land_type <- reshape::melt(TN_land, id = c("county","Year","latitude","longitude","Ag_District"))
+    colnames(TN_land_type) <- c("county","Year","latitude","longitude","Ag_District","Land Type", "Acres")
+    
+    
+    save(TN_home, TN_pasture, TN_wood, TN_crop, TN_farm, TN_pin, TN_land_type, file = "TN_LU_2.Rda")
 
-
-
+     
+    
