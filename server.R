@@ -32,13 +32,12 @@ shinyServer(function(input, output) {
     
     lands_type <- filter(TN_land_type, county == input$selCOUNTY)
     
-    ggplot(lands_type,aes(lands_type$Year, lands_type$Acres)) +
-      geom_col(aes(fill=`Land Type`), position = position_stack()) +
-      geom_text(label= paste(lands_type$Acres), size=4,  position = "stack",vjust=2)+
-      theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+    ggplot(lands_type,aes(lands_type$Year, lands_type$Acre, fill=`Land Type`)) +
+      geom_bar(stat = "identity") +
+      geom_text(aes(label= Acre), size=2,  position = position_stack(vjust=0.9)) +
       scale_x_discrete("Year") +
-      scale_y_discrete("Acres")
-
+      scale_y_discrete("Acre")
+    
     
   })
   

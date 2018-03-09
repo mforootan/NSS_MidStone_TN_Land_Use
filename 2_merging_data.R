@@ -88,7 +88,7 @@ TN_home <- select(TN_home,'County','value','Metric', 'Year')
     
     TN_land_type <- reshape::melt(TN_land, id = c("county","Year","latitude","longitude","Ag_District"))
     colnames(TN_land_type) <- c("county","Year","latitude","longitude","Ag_District","Land Type", "Acres")
-    
+    TN_land_type$Acre <- as.numeric(gsub(",","",as.character(TN_land_type$Acres)))
     
     save(TN_home, TN_pasture, TN_wood, TN_crop, TN_farm, TN_pin, TN_land_type, file = "TN_LU_2.Rda")
 

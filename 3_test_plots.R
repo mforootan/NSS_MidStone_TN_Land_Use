@@ -23,3 +23,11 @@ ggplot(tn_test2,aes(Year, Acres), yaxt ="n")+
   geom_text(label=paste(tn_test2$Acres,"ac"), size=2, position = "stack",vjust=2)+
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank())
   
+
+tn_test2 <- filter(TN_land_type, county == "Anderson")
+
+ggplot(tn_test2,aes(x=Year, y=Acre, fill=`Land Type`))+ 
+  geom_bar(stat = "identity") +
+  geom_text(aes(label= Acre), size=2,  position = position_stack(vjust=0.9))
+  
+  

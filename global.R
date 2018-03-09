@@ -11,6 +11,7 @@ load("data/TN_LU_2.Rda")
 # TN_pin
 
 library(shiny)
+library(dplyr)
 
 droplist <- as.list(TN_pin$county)
 
