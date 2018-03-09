@@ -8,11 +8,12 @@
 #
 
 library(shiny)
+library(shinythemes)
 
 
 # Define UI for application that draws a histogram
 shinyUI(
-  fluidPage(
+  fluidPage(theme = shinytheme("superhero"),
   
     navbarPage("Land Use Change in Tennessee- Massih Forootan",
                
@@ -74,24 +75,27 @@ shinyUI(
                     # Sidebar with a slider input for number of bins 
                     sidebarLayout(
                       sidebarPanel(
+                        
                         # Checkboxes to define what data to be displayed
-                        checkboxGroupInput("chkLAND", 
-                                           h5("Select Land Type (See Source Data tab for definitions)"), 
-                                           choices = list("Farmland" = 1, 
-                                                          "Cropland" = 2, 
-                                                          "Woodland" = 3,
-                                                          "Pasture" = 4),
-                                           selected = c(1,2,3,4)),
+                        # checkboxGroupInput("chkLAND", 
+                        #                    h6("Select Land Type (See Source Data tab for definitions)"), 
+                        #                    choices = list("Farmland" = 1, 
+                        #                                   "Cropland" = 2, 
+                        #                                   "Woodland" = 3,
+                        #                                   "Pasture" = 4),
+                        #                    selected = c(1,2,3,4)),
                         # A dropdown list containing county names
                         selectInput("selCOUNTY", label = h5("Select County"),
                                     choices = droplist,
-                                    selected = 1)
+                                    selected = 1),
+                        verbatimTextOutput("chkLAND")
                         
                       ),
                       
                       # Show a plot of the generated distribution
                       mainPanel(
                         plotOutput("lineHOME"),
+                        br(),br(),
                         plotOutput("barLAND")
                         
                          
