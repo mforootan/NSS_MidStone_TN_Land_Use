@@ -9,6 +9,7 @@
 
 library(shiny)
 library(ggthemes)
+library(plotly)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -23,46 +24,53 @@ shinyServer(function(input, output) {
       filter(Metric == "Homes_Sold", County == input$selCOUNTY, Year ==c("2007","2012"))
     
     ggplot(homes_county, aes(x=as.numeric(Year), y=as.numeric(value), group=1)) +
-      # geom_segment(homes_bar, mapping = aes(x=as.numeric(Year), y=as.numeric(value), xend=as.numeric(Year), yend=0), size = 5, color="red")+
-      geom_vline(xintercept = c(2007,2012), color = "yellow") +
-      geom_vline(xintercept = 2008, color = "pink", size = 6) +
+      geom_vline(xintercept = 2012, color = "dodgerblue3") +
+      geom_vline(xintercept = 2008, color = "indianred1", size = 6) +
       
-      geom_point() +
-      geom_line() +
-    theme(axis.text.x = element_text(colour="grey20",size=20,hjust=.5,vjust=.5,face="plain"),
-            axis.text.y = element_text(colour="grey20",size=20,hjust=1,vjust=0,face="plain"),
-            axis.title.x = element_text(colour="grey20",size=20,hjust=.5,vjust=0,face="plain"),
-            axis.title.y = element_text(colour="grey20",size=20,hjust=.5,vjust=.5,face="plain"))+
-            xlab("")+
-      theme_dark(base_size = 12, base_family = "")+
+      geom_line(color="darkgreen", shape = 1) +
+      geom_area(fill=alpha('darkgreen',0.2)) +
+    
+      theme_few(base_size = 12, base_family = "")+
+      theme(axis.text.x = element_text(colour="black",size=16,hjust=.5,vjust=.5,face="plain"),
+            axis.text.y = element_text(colour="black",size=16,hjust=1,vjust=0,face="plain"),
+            axis.title.x = element_text(colour="black",size=14,hjust=.5,vjust=0,face="plain"),
+            axis.title.y = element_text(colour="black",size=14,hjust=.5,vjust=.5,face="plain")
+            
+            )+
+      
+      xlab("Fig 1. Number of new homes sold over time in county (Tennessee Home Development Agency).")+
       scale_x_continuous(breaks = c(2007:2016)) +
-      scale_y_continuous("Home Sold")
+      scale_y_continuous("# of New Homes Sold")
 
     
   })
   
-  # Generates the column bars for land data reading from ui.R
+  # Redoing the column bars using plotly
   
-  output$barLAND <- renderPlot({
+  output$barLANDS <- renderPlotly({
     
-    lands_type <- filter(TN_land_type, county == input$selCOUNTY)
+    lands_all <- filter(TN_land_type, county == input$selCOUNTY)
     
-    ggplot(lands_type,aes(lands_type$Year, lands_type$Acre, fill=`Land Type`)) +
-      geom_bar(stat = "identity") +
-      geom_text(aes(label= Acre), size=4,  position = position_stack(vjust=0.9)) +
-      theme(axis.text.x = element_text(colour="grey20",size=20,hjust=.5,vjust=.5,face="plain"),
-            axis.text.y = element_text(colour="grey20",size=20,hjust=1,vjust=0,face="plain"),  
-            axis.title.x = element_text(colour="grey20",size=20,hjust=.5,vjust=0,face="plain"),
-            axis.title.y = element_text(colour="grey20",size=20,hjust=.5,vjust=.5,face="plain"),
-            legend.text=element_text(size=15),
-            legend.title = element_text(size = 15))+
-      xlab("")+
-      
-      scale_y_discrete("Acre")
+    tn_test_f <- filter(lands_all, `Land Type` == "Farmland")
+    tn_test_fa <- as.array(tn_test_f$Acre)
+    tn_test_c <- filter(lands_all, `Land Type` == "Cropland")
+    tn_test_ca <- as.array(tn_test_c$Acre)
+    tn_test_w <- filter(lands_all, `Land Type` == "Woodland")
+    tn_test_wa <- as.array(tn_test_w$Acre)
+    tn_test_p <- filter(lands_all, `Land Type` == "Pasture")
+    tn_test_pa <- as.array(tn_test_p$Acre)
     
+    tn_test_x <- as.array(tn_test_f$Year)
+    tn_test_df <- data.frame(tn_test_x, tn_test_fa ,tn_test_pa, tn_test_ca, tn_test_wa)
+    
+    plotly::plot_ly(tn_test_df, x = ~tn_test_x, y = ~tn_test_fa, name ='Farmland', type = 'bar') %>%
+      add_trace(y = ~tn_test_ca, name = 'Cropland') %>%
+      add_trace(y = ~tn_test_wa , name = 'Woodland') %>%
+      add_trace(y = ~tn_test_pa, name = 'Pasture') %>%
+      layout(yaxis = list(title = 'Area (acre)'), barmode = 'stack', xaxis = list(title = 'Fig 2. Area of different land types over time (USDA).'))
     
   })
- 
+    
   })
   
 
